@@ -1,0 +1,15 @@
+{
+  "name": "vue-composition-function-insights",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./dist && babel ./src --out-dir ./dist --extensions \".ts\" && tsc --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "vue": "^3.0.5",
+    "@vue/devtools-api": "^6.0.0-beta.3",
+    "@vue/runtime-core": "^3.0.5"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "babel-plugin-vue-composition-functions-with-devtools",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./dist && babel ./src --out-dir ./dist --extensions \".ts\""
+  },
+  "dependencies": {
+    "@babel/types": "^7.12.12",
+    "@babel/traverse": "^7.12.12"
+  }
+}
