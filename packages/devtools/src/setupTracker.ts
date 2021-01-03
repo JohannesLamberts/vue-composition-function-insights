@@ -1,4 +1,5 @@
 import { currentStackNames } from './state'
+import { Insight } from './types'
 
 export class SetupTracker {
   public readonly insights: Insight[] = []

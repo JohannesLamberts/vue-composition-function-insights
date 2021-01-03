@@ -1,6 +1,7 @@
 import { getCurrentInstance } from '@vue/runtime-core'
 import { SetupTracker } from './setupTracker'
 import { addSetupTrackerToComponent, currentSetup, setupStack } from './state'
+import { FunctionCallData, FunctionCallSubscriber } from './types'
 
 type TFunc = (...args: any[]) => any
 
