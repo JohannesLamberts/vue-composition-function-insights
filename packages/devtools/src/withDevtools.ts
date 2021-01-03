@@ -47,7 +47,7 @@ withDevtools.__registerConst = function (identifier: string, value: any) {
   })
 }
 
-withDevtools.__wrapArrowFunctionDeclaration = function (fn: TFunc) {
+withDevtools.__wrapFunctionExpression = function (fn: TFunc) {
   const vm = getCurrentInstance()
   if (!vm) {
     return fn

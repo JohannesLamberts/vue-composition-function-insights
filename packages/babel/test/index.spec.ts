@@ -25,6 +25,7 @@ pluginTester({
     fixtureTest('register-state-array-destruct'),
     fixtureTest('register-state-obj-destruct'),
     fixtureTest('without-devtools'),
-    fixtureTest('wrap-arrow-function-declaration'),
+    fixtureTest('wrap-arrow-function-expression'),
+    fixtureTest('wrap-function-expression'),
   ],
 })

@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf ./dist && babel ./src --out-dir ./dist --extensions \".ts\""
+    "build": "rm -rf ./dist && babel ./src --out-dir ./dist --extensions \".ts\"",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/types": "^7.12.12",

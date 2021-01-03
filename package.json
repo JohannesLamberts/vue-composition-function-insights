@@ -9,8 +9,7 @@
   "scripts": {
     "build": "lerna exec --parallel yarn build",
     "publish.local": "yarn build && lerna exec yalc push",
-    "lint": "eslint ./packages",
-    "test": "lerna exec --parallel jest"
+    "lint": "eslint ./packages"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

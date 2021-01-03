@@ -3,10 +3,10 @@ import { Babel } from '../types'
 
 const DEVTOOLS_FN_IDENTIFIER = 'withDevtools.__wrapFunctionExpression'
 
-export const createArrowFunctionExpressionVisitor = ({
+export const createFunctionExpressionVisitor = ({
   types: t,
-}: Babel): Visitor['ArrowFunctionExpression'] => {
-  return function ArrowFunctionExpression(path) {
+}: Babel): Visitor['FunctionExpression'] => {
+  return function FunctionExpression(path) {
     // prevent infinite loop
     if (
       path.parent.type === 'CallExpression' &&
@@ -18,8 +18,8 @@ export const createArrowFunctionExpressionVisitor = ({
 
     let identifier: string | null = null
 
-    if (t.isVariableDeclarator(path.parent) && 'name' in path.parent.id) {
-      identifier = path.parent.id.name
+    if (path.node.id && 'name' in path.node.id) {
+      identifier = path.node.id.name
     }
 
     path.replaceWith(

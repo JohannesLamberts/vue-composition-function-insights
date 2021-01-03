@@ -1,5 +1,5 @@
 withDevtools('useCounter', () => {
-  const fn1 = withDevtools.__wrapArrowFunctionDeclaration(
+  const fn1 = withDevtools.__wrapFunctionExpression(
     () => {
       return 1
     },
@@ -9,7 +9,7 @@ withDevtools('useCounter', () => {
   )
   withDevtools.__registerConst('fn1', fn1)
   const obj = {
-    fn2: withDevtools.__wrapArrowFunctionDeclaration(
+    fn2: withDevtools.__wrapFunctionExpression(
       () => {
         return fn1() * 2
       },

@@ -1,4 +1,4 @@
-interface VarInsight {
+export interface VarInsight {
   type: 'VarInsight'
   name: string
   value: any
