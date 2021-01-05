@@ -21,7 +21,6 @@ export function withDevtools<TFunction extends TFunc>(
 ): TFunction {
   return function wrappedWithDevtools(this: any, ...args: any[]) {
     const vm = getCurrentInstance()
-    console.log('wrappedWithDevtools', { name, vm })
     if (!vm) {
       return fn.call(this, args)
     }

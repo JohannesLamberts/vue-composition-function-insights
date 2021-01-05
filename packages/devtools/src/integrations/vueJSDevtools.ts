@@ -14,7 +14,6 @@ export function installVueJSDevtoolsIntegration(app: App) {
     },
     (api) => {
       api.on.inspectComponent((payload) => {
-        console.log('inspectComponent', payload.componentInstance)
         if (payload.instanceData) {
           const tracker = setupTrackerMap.get(payload.componentInstance)
           if (!tracker) {
