@@ -1,10 +1,15 @@
 withDevtools('useCounter', () => {
-  const fn1 = () => {
-    return 1
+  const fn1 = async (a) => {
+    if (a > 0) {
+      await Promise.resolve()
+      return a
+    }
+
+    return -a
   }
   const obj = {
-    fn2: () => {
-      return fn1() * 2
+    fn2: async (b) => {
+      return (await fn1(b)) * 2
     },
   }
   return obj

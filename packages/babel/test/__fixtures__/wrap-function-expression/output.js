@@ -1,22 +1,27 @@
 withDevtools('useCounter', () => {
-  const fn1 = withDevtools.__wrapFunctionExpression(
-    function fn1Name() {
-      return 1
-    },
-    {
-      identifier: 'fn1Name',
-    },
-  )
-  withDevtools.__registerConst('fn1', fn1)
-  const obj = {
-    fn2: withDevtools.__wrapFunctionExpression(
-      function () {
-        return fn1() * 2
+  const fn1 = function fn1Name() {
+    return withDevtools.__wrapFunctionExecution(
+      () => {
+        return 1
       },
       {
-        identifier: null,
+        identifier: 'fn1Name',
       },
-    ),
+    )
+  }
+
+  withDevtools.__registerConst('fn1', fn1)
+  const obj = {
+    fn3: function fn3Name() {
+      return withDevtools.__wrapFunctionExecution(
+        () => {
+          return fn1() * fn2() * 2
+        },
+        {
+          identifier: 'fn3Name',
+        },
+      )
+    },
   }
   withDevtools.__registerConst('obj', obj)
   return obj

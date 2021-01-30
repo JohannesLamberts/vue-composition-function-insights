@@ -2,13 +2,17 @@ import type { Visitor } from '@babel/traverse'
 import { WITH_DEVTOOLS_FN_NAME } from './config'
 import { Babel } from './types'
 import { createArrowFunctionExpressionVisitor } from './visitors/ArrowFunctionExpression'
+import { createFunctionDeclarationVisitor } from './visitors/FunctionDeclaration'
 import { createFunctionExpressionVisitor } from './visitors/FunctionExpression'
+import { createObjectMethodVisitor } from './visitors/ObjectMethod'
 import { createVariableDeclaratorVisitor } from './visitors/VariableDeclaration'
 
 const createWithDevtoolsVisitor = (babel: Babel): Visitor => ({
   VariableDeclaration: createVariableDeclaratorVisitor(babel),
   ArrowFunctionExpression: createArrowFunctionExpressionVisitor(babel),
   FunctionExpression: createFunctionExpressionVisitor(babel),
+  FunctionDeclaration: createFunctionDeclarationVisitor(babel),
+  ObjectMethod: createObjectMethodVisitor(babel),
 })
 
 export default function ssrRefPlugin(babel: Babel) {

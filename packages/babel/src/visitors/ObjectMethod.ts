@@ -5,10 +5,10 @@ import {
   wrapFunctionExecution,
 } from '../wrapper/functionExecution'
 
-export const createArrowFunctionExpressionVisitor = (
+export const createObjectMethodVisitor = (
   babel: Babel,
-): Visitor['ArrowFunctionExpression'] => {
-  return function ArrowFunctionExpression(path) {
+): Visitor['ObjectMethod'] => {
+  return function ObjectMethod(path) {
     // prevent infinite loop
     if (isWrapperNodePath(path)) {
       return

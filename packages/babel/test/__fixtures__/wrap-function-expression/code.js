@@ -3,8 +3,8 @@ withDevtools('useCounter', () => {
     return 1
   }
   const obj = {
-    fn2: function () {
-      return fn1() * 2
+    fn3: function fn3Name() {
+      return fn1() * fn2() * 2
     },
   }
   return obj

@@ -5,10 +5,10 @@ import {
   wrapFunctionExecution,
 } from '../wrapper/functionExecution'
 
-export const createArrowFunctionExpressionVisitor = (
+export const createFunctionDeclarationVisitor = (
   babel: Babel,
-): Visitor['ArrowFunctionExpression'] => {
-  return function ArrowFunctionExpression(path) {
+): Visitor['FunctionDeclaration'] => {
+  return function FunctionDeclaration(path) {
     // prevent infinite loop
     if (isWrapperNodePath(path)) {
       return

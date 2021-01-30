@@ -46,24 +46,22 @@ withDevtools.__registerConst = function (identifier: string, value: any) {
   })
 }
 
-withDevtools.__wrapFunctionExpression = function (fn: TFunc) {
+withDevtools.__wrapFunctionExecution = function (fn: TFunc) {
   const vm = getCurrentInstance()
   if (!vm) {
-    return fn
+    return fn()
   }
-  return (...args: any[]) => {
+  return () => {
     try {
-      const result = fn.apply(this, args)
+      const result = fn()
       trackFunctionCall({
         vm,
-        args,
         result,
       })
       return result
     } catch (error) {
       trackFunctionCall({
         vm,
-        args,
         error,
       })
     }

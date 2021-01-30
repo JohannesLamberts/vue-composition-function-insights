@@ -21,11 +21,13 @@ pluginTester({
   pluginName: 'withDevtools',
   filename: __filename,
   tests: [
+    fixtureTest('object-method', { only: true }),
     fixtureTest('register-state'),
     fixtureTest('register-state-array-destruct'),
     fixtureTest('register-state-obj-destruct'),
     fixtureTest('without-devtools'),
     fixtureTest('wrap-arrow-function-expression'),
+    fixtureTest('wrap-function-declaration'),
     fixtureTest('wrap-function-expression'),
   ],
 })
