@@ -1,11 +1,11 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
-import { App } from 'vue'
+import { App, isRef, reactive, unref } from 'vue'
 import { setupTrackerMap } from '../state'
 
 let isAlreadyInstalled = false
 
 export function installVueJSDevtoolsIntegration(app: App) {
-  console.log('installing vuejs devtools', app)
+  console.info('installing vuejs devtools', app)
   setupDevtoolsPlugin(
     {
       id: 'with-devtools',
@@ -21,11 +21,16 @@ export function installVueJSDevtoolsIntegration(app: App) {
           }
           tracker.forEach((setupTracker) => {
             setupTracker.insights.forEach((insight) => {
+              const { value } = insight
               payload.instanceData.state.push({
                 type: `🛠 ${setupTracker.label}`,
                 key: insight.name,
                 editable: false,
-                value: insight.value,
+                value: isRef(value)
+                  ? unref(value)
+                  : value && typeof value === 'object'
+                  ? reactive(value)
+                  : value,
               })
             })
           })

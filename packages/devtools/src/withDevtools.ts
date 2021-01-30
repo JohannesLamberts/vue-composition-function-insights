@@ -51,19 +51,18 @@ withDevtools.__wrapFunctionExecution = function (fn: TFunc) {
   if (!vm) {
     return fn()
   }
-  return () => {
-    try {
-      const result = fn()
-      trackFunctionCall({
-        vm,
-        result,
-      })
-      return result
-    } catch (error) {
-      trackFunctionCall({
-        vm,
-        error,
-      })
-    }
+  try {
+    const result = fn()
+    trackFunctionCall({
+      vm,
+      result,
+    })
+    return result
+  } catch (error) {
+    trackFunctionCall({
+      vm,
+      error,
+    })
+    throw error
   }
 }
