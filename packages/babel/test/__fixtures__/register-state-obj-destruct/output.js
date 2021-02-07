@@ -1,9 +1,14 @@
 withDevtools('useCounter', () => {
+  const __withDevtoolsBoundContext = withDevtools.__bindContext()
+
   const { a: aRenamed, b } = {
     a: 1,
     b: 2,
   }
-  withDevtools.__registerConst('aRenamed', aRenamed)
-  withDevtools.__registerConst('b', b)
+
+  __withDevtoolsBoundContext.registerConst('aRenamed', aRenamed)
+
+  __withDevtoolsBoundContext.registerConst('b', b)
+
   console.log(aRenamed, b)
 })

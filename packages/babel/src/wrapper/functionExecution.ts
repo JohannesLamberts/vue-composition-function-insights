@@ -6,9 +6,8 @@ import {
   FunctionExpression,
   ObjectMethod,
 } from '@babel/types'
+import { IDENTIFIER } from '../config'
 import { Babel } from '../types'
-
-const DEVTOOLS_FN_IDENTIFIER = 'withDevtools.__wrapFunctionExecution'
 
 type Path =
   | NodePath<ArrowFunctionExpression>
@@ -20,7 +19,9 @@ export function isWrapperNodePath(path: Path) {
   return (
     path.parent.type === 'CallExpression' &&
     path.parent.callee.type === 'Identifier' &&
-    ['withDevtools', DEVTOOLS_FN_IDENTIFIER].includes(path.parent.callee.name)
+    [IDENTIFIER.WITH_DEVTOOLS, IDENTIFIER.WRAP_FUNCTION].includes(
+      path.parent.callee.name,
+    )
   )
 }
 
@@ -37,14 +38,24 @@ export function wrapFunctionExecution({ types: t }: Babel, path: Path) {
     identifier = node.key.name
   }
 
+  if (!identifier) {
+    return
+  }
+
   const body = path.get('body') as NodePath<BlockStatement>
 
   body.replaceWith(
     t.blockStatement([
       t.returnStatement(
-        t.callExpression(t.identifier(DEVTOOLS_FN_IDENTIFIER), [
+        t.callExpression(t.identifier(IDENTIFIER.WRAP_FUNCTION), [
           t.arrowFunctionExpression([], body.node, node.async),
           t.objectExpression([
+            t.objectProperty(
+              t.identifier('arguments'),
+              t.callExpression(t.identifier('Array.from'), [
+                t.identifier('arguments'),
+              ]),
+            ),
             t.objectProperty(
               t.identifier('identifier'),
               identifier ? t.stringLiteral(identifier) : t.nullLiteral(),

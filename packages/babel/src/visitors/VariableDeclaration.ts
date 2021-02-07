@@ -1,5 +1,6 @@
 import type { Visitor } from '@babel/traverse'
 import { VariableDeclarator } from '@babel/types'
+import { IDENTIFIER } from '../config'
 import { Babel } from '../types'
 import { isDefined } from '../utils'
 
@@ -48,9 +49,10 @@ export const createVariableDeclaratorVisitor = ({
     path.node.declarations
       .map(getConstIdentifiers)
       .flat()
+      .filter((identifier) => ![IDENTIFIER.BOUND_CONTEXT].includes(identifier))
       .forEach((identifier) => {
         path.insertAfter(
-          t.callExpression(t.identifier('withDevtools.__registerConst'), [
+          t.callExpression(t.identifier(IDENTIFIER.REGISTER_CONST), [
             t.stringLiteral(identifier),
             t.identifier(identifier),
           ]),

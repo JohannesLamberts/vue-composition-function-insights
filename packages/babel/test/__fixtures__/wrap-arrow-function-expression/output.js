@@ -1,6 +1,8 @@
 withDevtools('useCounter', () => {
+  const __withDevtoolsBoundContext = withDevtools.__bindContext()
+
   const fn1 = async (a) => {
-    return withDevtools.__wrapFunctionExecution(
+    return __withDevtoolsBoundContext.wrapFunctionExecution(
       async () => {
         if (a > 0) {
           await Promise.resolve()
@@ -10,24 +12,21 @@ withDevtools('useCounter', () => {
         return -a
       },
       {
+        arguments: Array.from(arguments),
         identifier: 'fn1',
       },
     )
   }
 
-  withDevtools.__registerConst('fn1', fn1)
+  __withDevtoolsBoundContext.registerConst('fn1', fn1)
+
   const obj = {
     fn2: async (b) => {
-      return withDevtools.__wrapFunctionExecution(
-        async () => {
-          return (await fn1(b)) * 2
-        },
-        {
-          identifier: null,
-        },
-      )
+      return (await fn1(b)) * 2
     },
   }
-  withDevtools.__registerConst('obj', obj)
+
+  __withDevtoolsBoundContext.registerConst('obj', obj)
+
   return obj
 })

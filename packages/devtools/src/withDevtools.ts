@@ -1,19 +1,9 @@
 import { getCurrentInstance } from '@vue/runtime-core'
 import { SetupTracker } from './setupTracker'
 import { addSetupTrackerToComponent, currentSetup, setupStack } from './state'
-import { FunctionCallData, FunctionCallSubscriber } from './types'
+import { FunctionCallContext } from "./types";
 
 type TFunc = (...args: any[]) => any
-
-const functionCallSubscribers: FunctionCallSubscriber[] = []
-
-export function subscribeToFunctionCalls(cb: FunctionCallSubscriber) {
-  functionCallSubscribers.push(cb)
-}
-
-function trackFunctionCall(data: FunctionCallData) {
-  functionCallSubscribers.forEach((cb) => cb(data))
-}
 
 export function withDevtools<TFunction extends TFunc>(
   name: string,
@@ -24,7 +14,7 @@ export function withDevtools<TFunction extends TFunc>(
     if (!vm) {
       return fn.call(this, args)
     }
-    const tracker = new SetupTracker(name)
+    const tracker = new SetupTracker(name, vm)
     addSetupTrackerToComponent(vm, tracker)
     setupStack.unshift(tracker)
     try {
@@ -35,34 +25,44 @@ export function withDevtools<TFunction extends TFunc>(
   } as TFunction
 }
 
-withDevtools.__registerConst = function (identifier: string, value: any) {
-  if (!getCurrentInstance()) {
+withDevtools.__bindContext = function () {
+  const vm = getCurrentInstance()
+
+  if (!vm) {
     return
   }
-  currentSetup().addInsight({
-    type: 'VarInsight',
-    name: identifier,
-    value,
-  })
-}
 
-withDevtools.__wrapFunctionExecution = function (fn: TFunc) {
-  const vm = getCurrentInstance()
-  if (!vm) {
-    return fn()
-  }
-  try {
-    const result = fn()
-    trackFunctionCall({
-      vm,
-      result,
-    })
-    return result
-  } catch (error) {
-    trackFunctionCall({
-      vm,
-      error,
-    })
-    throw error
+  const setup = currentSetup()
+
+  return {
+    wrapFunctionExecution(fn: TFunc, context: FunctionCallContext) {
+      try {
+        const result = fn()
+        setup.trackFunctionResult({
+          context,
+          result: {
+            type: 'return',
+            value: result,
+          },
+        })
+        return result
+      } catch (error) {
+        setup.trackFunctionResult({
+          context,
+          result: {
+            type: 'error',
+            error,
+          },
+        })
+        throw error
+      }
+    },
+    registerConst(identifier: string, value: any) {
+      setup.addInsight({
+        type: 'VarInsight',
+        name: identifier,
+        value,
+      })
+    },
   }
 }

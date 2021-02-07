@@ -21,7 +21,7 @@ pluginTester({
   pluginName: 'withDevtools',
   filename: __filename,
   tests: [
-    fixtureTest('object-method', { only: true }),
+    fixtureTest('object-method'),
     fixtureTest('register-state'),
     fixtureTest('register-state-array-destruct'),
     fixtureTest('register-state-obj-destruct'),

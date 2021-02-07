@@ -6,5 +6,22 @@ export interface VarInsight {
 
 export type Insight = VarInsight
 
-export type FunctionCallData = any
-export type FunctionCallSubscriber = (data: FunctionCallData) => void
+type FunctionExceptionResult = {
+  type: 'error'
+  error: Error
+}
+
+type FunctionReturnResult = {
+  type: 'return'
+  value: any
+}
+
+export interface FunctionCallContext {
+  arguments: any[]
+  identifier: string | null
+}
+
+export type FunctionCallData = {
+  context: FunctionCallContext
+  result: FunctionExceptionResult | FunctionReturnResult
+}

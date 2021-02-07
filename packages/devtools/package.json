@@ -8,8 +8,9 @@
     "build": "rm -rf ./dist && babel ./src --out-dir ./dist --extensions \".ts\" && tsc --emitDeclarationOnly"
   },
   "dependencies": {
-    "vue": "^3.0.5",
     "@vue/devtools-api": "^6.0.0-beta.3",
-    "@vue/runtime-core": "^3.0.5"
+    "@vue/runtime-core": "^3.0.5",
+    "eventemitter": "^0.3.3",
+    "vue": "^3.0.5"
   }
 }
